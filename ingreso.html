@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<!-- Responsive -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link href="css/responsive.css" rel="stylesheet">
+<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+<body>
+<div class="page-wrapper">
+
+    <!-- Sidebar Page -->
+    <div class="sidebar-page">
+    	<div class="auto-box">
+            <div class="row clearfix">
+                <center><img src="images/logo_p.png" width="100" height="50"/></center>
+                <br>
+                <center><h5>Acceso a resultados</h5></center>
+                <br>
+                <!-- Left Content -->
+                <section class="left-content col-lg-8 col-md-8 col-sm-7 col-xs-12 pull-left">
+                	
+                    <!-- Contact us Form -->
+                    <div class="contact-us">
+                         <div class="form-container">
+                            <form action="resultados.php" method="post" id="formResultado" target="_parent">
+                            <!--<form action="http://cortesvines.syntecom.pw/resultados_estudios.php" method="post" id="formResultado">-->
+                                <div class="form-group col-lg-6 col-md-6 col-xs-12">
+                                    <input type="text" value="" placeholder="Número de protocolo" name="id" id="idI" required>
+                                </div>
+                                <div class="form-group col-lg-6 col-md-6 col-xs-12">
+                                    <input type="text" value="" placeholder="DNI" name="dni" id="dniI" required>
+                                </div>                                
+                                <div class="form-group col-lg-6 col-md-6 col-xs-12">
+                                    <input type="text" value="" placeholder="Primer nombre" name="name" id="nameI" required>
+                                </div>
+                                <div class="form-group col-xs-12 clearfix">
+                                    <button type="button" onclick="recuperarEstudio();" class="dark-btn pull-right" >Resultados</button>
+                                </div>                                
+                            </form>
+                        </div>
+                    </div>
+                
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End pagewrapper-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var elements = document.getElementsByTagName("INPUT");
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].oninvalid = function (e) {
+                e.target.setCustomValidity("");
+                if (!e.target.validity.valid) {
+                    e.target.setCustomValidity("Este campo no puede estar en blanco.");
+                }
+            };
+            elements[i].oninput = function (e) {
+                e.target.setCustomValidity("");
+            };
+        }
+    })
+</script>
+
+
+
+<script>
+    
+    function recuperarEstudio() {        
+        var protocolo = document.getElementById("idI").value;
+        var documento = document.getElementById("dniI").value;
+        
+        var flagEstudio = $.ajax({
+            url: "https://cortesvines.com.ar/api/v1/control_estudio.php?dni=" + documento + "&protocolo=" + protocolo,
+                dataType: 'text',
+                async: false
+        }).responseText;
+
+        if (flagEstudio == parseInt(1)) {
+            document.getElementById('formResultado').submit();
+        } else {
+            alert('Estudio no encontrado. Por favor, intente de nuevo o contacte al laboratorio');
+            return false;
+        }
+        
+    }
+
+
+    function recuperarResultados(evt) {
+        evt.preventDefault();
+        let protocolo = document.querySelector("#idI");
+        let dni = document.querySelector("input[name='dni']");
+        let name = document.querySelector("input[name='name']");
+        //let spin = document.querySelector("#spin");
+        //animateClass = "icon-refresh-animate";
+        //spin.classList.add(animateClass);
+        const req = new window.XMLHttpRequest();
+        req.onload = function () {
+            let res = req.response;
+            let pres = JSON.parse(res);
+            if (pres.length > 0) {
+                localStorage.setItem("resultados", res);
+                window.open("resultados.html", "_self");
+            } else {
+                //Se podra poner una alerta de boostrap aca gaby
+                //spin1 = document.querySelector("#spin");
+                //spin1.classList.remove(animateClass);
+                alert('Estudio no encontrado.');
+                //document.getElementById("bsalert").style.display = "block";
+                return false;
+            }
+        };
+
+        req.onerror = function () {
+            //spin1 = document.querySelector("#spin");
+            //spin1.classList.remove(animateClass);
+            alert('Error: por favor, intente de nuevo o contacte al laboratorio');
+        };
+        
+        //mandar dni y protocolo como form data, por seguridad.
+        document.getElementById('formResultado').submit();
+        
+        
+        //req.open("GET", "http://cortesvines.com.ar/api/v1/resultados_por_protocolo.php?dni=" + dni.value + "&id=" + protocolo.value + "&name=" + name.value);
+        //req.send();
+    }
+    
+</script>
+
+
+
+
+<script src="js/jquery.js"></script> 
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.appear.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="js/googlemaps.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
