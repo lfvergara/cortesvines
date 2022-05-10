@@ -32,13 +32,20 @@
                             <form action="resultados.php" method="post" id="formResultado" target="_parent">
                             <!--<form action="http://cortesvines.syntecom.pw/resultados_estudios.php" method="post" id="formResultado">-->
                                 <div class="form-group col-lg-6 col-md-6 col-xs-12">
-                                    <input type="text" value="" placeholder="Número de protocolo" name="id" id="idI" required>
+                                    <label id="id">N° de Protocolo</label>
+                                    <input type="text" value="" placeholder="Ingrese su número de protocolo" name="id" id="idI" required>
                                 </div>
                                 <div class="form-group col-lg-6 col-md-6 col-xs-12">
-                                    <input type="text" value="" placeholder="DNI" name="dni" id="dniI" required>
+                                    <label id="dni">DNI</label>
+                                    <input type="text" value="" placeholder="Ingrese su DNI" name="dni" id="dniI" required>
                                 </div>                                
                                 <div class="form-group col-lg-6 col-md-6 col-xs-12">
-                                    <input type="text" value="" placeholder="Primer nombre" name="name" id="nameI" required>
+                                    <label id="name">Primer Nombre</label>
+                                    <input type="text" value="" placeholder="Ingrese su Nombre" name="name" id="nameI" required>
+                                </div>
+                                <div class="form-group col-lg-12 col-md-12 col-xs-12">
+                                    <input type="checkbox" class="checkit" name="smoking" id="smoking" value="1" onclick="yesno('smoking','yesnos');">
+                                    <label for="smoking" name="yesnos" id="yesnos" class="checkboxtext ">Institución</label>
                                 </div>
                                 <div class="form-group col-xs-12 clearfix">
                                     <button type="button" onclick="recuperarEstudio();" class="dark-btn pull-right" >Resultados</button>
@@ -74,6 +81,34 @@
 
 <script>
     
+    function yesno(thecheckbox, thelabel) {
+        var checkboxvar = document.getElementById(thecheckbox);
+        var labelvar = document.getElementById(thelabel);
+        var id = document.getElementById('id');
+        var dni = document.getElementById('dni');
+        var name = document.getElementById('name');
+        var idI = document.getElementById('idI');
+        var dniI = document.getElementById('dniI');
+        var nameI = document.getElementById('nameI');
+        if (checkboxvar.checked == true) {
+            id.innerHTML = "Código";
+            idI.placeholder = "Ingrese su Código";
+            dni.innerHTML = "Identificador";
+            dniI.placeholder = "Ingrese su Identificador";
+            name.innerHTML = "Nombre de Institución";
+            nameI.placeholder = "Ingrese su Institución";
+        }
+        else {
+            id.innerHTML = "N° de Protocolo";
+            idI.placeholder = "Ingrese su número de protocolo";
+            dni.innerHTML = "DNI";
+            dniI.placeholder = "Ingrese su DNI";
+            name.innerHTML = "Primer Nombre";
+            nameI.placeholder = "Ingrese su Nombre";
+        }
+    }
+    
+
     function recuperarEstudio() {        
         var protocolo = document.getElementById("idI").value;
         var documento = document.getElementById("dniI").value;

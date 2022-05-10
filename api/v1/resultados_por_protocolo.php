@@ -6,7 +6,7 @@ header('Access-Control-Allow-Methods: GET');
 $id = utf8_decode($_REQUEST['id']);
 $dni = utf8_decode($_REQUEST['dni']);
 $name = utf8_decode($_REQUEST['name']);
-$path = "./reportes/";
+$path = "./reportes/pdf/";
 $pdffiles = array();
 #$valid_files = array('pdf');
 $valid_files = ['pdf','PDF'];

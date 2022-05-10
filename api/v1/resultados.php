@@ -6,7 +6,7 @@ header('Access-Control-Allow-Methods: GET');
 
 $dni = utf8_decode($_REQUEST['dni']);
 $bday = utf8_decode($_REQUEST['bday']);
-$path = "./reportes/";
+$path = "./reportes/pdf/";
  
 $pdffiles = array();
 $valid_files = array('pdf');

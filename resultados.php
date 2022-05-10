@@ -4,7 +4,7 @@ $protocolo = filter_input(INPUT_POST, 'id');
 $denominacion = filter_input(INPUT_POST, 'name');
 
 $nombre_estudio = "{$protocolo}-{$dni}.PDF";
-$archivo = "reportes/{$nombre_estudio}";
+$archivo = "reportes/pdf/{$nombre_estudio}";
 
 $creacion = date("d/m/Y H:i", filectime($archivo));
 ?>
